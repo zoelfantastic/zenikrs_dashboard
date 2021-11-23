@@ -1,3 +1,31 @@
 .store {
-    flex: 4;
+  flex: 4;
+  height: 50px;
+}
+
+.storeHeaderWrapper {
+  height: 100%;
+  padding: 0px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.storeHeaderRight {
+  display: flex;
+  align-items: flex-end;
+}
+
+.storeTitle {
+  font-size: 25px;
+  color: rgb(100, 98, 98);
+}
+
+.fillSelect {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
 }

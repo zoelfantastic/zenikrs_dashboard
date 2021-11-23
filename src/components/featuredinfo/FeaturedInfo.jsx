@@ -20,8 +20,8 @@ export default class FeaturedInfo extends Component {
   }
 
   render() {
-    const { dataKeyX, dataKeyY, dataKeyBar } = this.props.dataKeys;
-    const { selectedData, onDivClick } = this.props;
+    const { title1, title2, title3 } = this.props.titleWidget;
+    const { selectedData, onDivClick, ...dataKeys } = this.props;
 
     const percentageTotal = selectedData
       ? parseFloat(selectedData.percentageTotal).toFixed(2)
@@ -47,12 +47,12 @@ export default class FeaturedInfo extends Component {
             })
           }
         >
-          <span className="featuredTitle">Pendapatan Bersih Baru</span>
+          <span className="featuredTitle">{title1}</span>
           <div className="featuredMoneyContainer">
             <span className="featuredMoney">
               {selectedData
                 ? `Rp.${this.numberWithCommas(selectedData.total)}`
-                : "-"}
+                : "0"}
             </span>
             <span className="featuredMoneyRate">
               {this.getSignArrow(percentageTotal)}
@@ -71,7 +71,7 @@ export default class FeaturedInfo extends Component {
             })
           }
         >
-          <span className="featuredTitle">Produk dilihat</span>
+          <span className="featuredTitle">{title2}</span>
           <div className="featuredMoneyContainer">
             <span className="featuredMoney">
               {selectedData ? selectedData.viewed : 0}{" "}
@@ -93,7 +93,7 @@ export default class FeaturedInfo extends Component {
             })
           }
         >
-          <span className="featuredTitle">Produk Terjual</span>
+          <span className="featuredTitle">{title3}</span>
           <div className="featuredMoneyContainer">
             <span className="featuredMoney">
               {selectedData ? selectedData.terjual : 0}

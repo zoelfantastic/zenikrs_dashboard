@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Chart from "../../components/chart/Chart";
 import FeaturedInfo from "../../components/featuredinfo/FeaturedInfo";
 import "./home.css";
-import { dataBarang, dataHistori } from "../../dummyData";
+import {  dataHistori } from "../../dummyData";
 import moment from "moment";
 
 export default class Home extends Component {
@@ -13,11 +13,17 @@ export default class Home extends Component {
     this.year = new Date().getFullYear();
     this.hours = new Date().getHours();
 
+    this.titleWidget = {
+      title1: "Pendapatan bersih baru",
+      title2: "Produk dilihat",
+      title3: "Produk terjual"
+    }
+
     this.state = {
       dataKeys: {
         dataKeyX: "tgl",
         dataKeyY: "penjualan",
-        dataBar: "penjualan",
+        dataKeyBar: "penjualan",
       },
       dataChart: dataHistori,
       selectedData: null,
@@ -101,6 +107,7 @@ export default class Home extends Component {
           dataKeys={dataKeys}
           selectedData={selectedData}
           onDivClick={this.handleClick}
+          titleWidget={this.titleWidget}
         />
         <div className="titleAnalis">
           <h3>Analis Produk</h3>

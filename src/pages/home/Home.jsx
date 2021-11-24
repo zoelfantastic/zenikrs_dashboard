@@ -1,9 +1,15 @@
 import React, { Component } from "react";
-import Chart from "../../components/chart/Chart";
-import FeaturedInfo from "../../components/featuredinfo/FeaturedInfo";
+import Chart from "components/chart/Chart";
+import FeaturedInfo from "components/featuredinfo/FeaturedInfo";
 import "./home.css";
-import {  dataHistori } from "../../dummyData";
+import { dataHistori } from "src/dummyData";
 import moment from "moment";
+import {
+  getMonthEarlier,
+  getFilteredDataByMonth,
+  getPercentageData,
+  formatDate,
+} from "../../utils/Utils";
 
 export default class Home extends Component {
   constructor(props) {
@@ -16,8 +22,8 @@ export default class Home extends Component {
     this.titleWidget = {
       title1: "Pendapatan bersih baru",
       title2: "Produk dilihat",
-      title3: "Produk terjual"
-    }
+      title3: "Produk terjual",
+    };
 
     this.state = {
       dataKeys: {
@@ -35,58 +41,51 @@ export default class Home extends Component {
   }
 
   getdataHistoriSebulan() {
-    let oneMonthBefore = moment().subtract(1, "months").format("YYYY-MM-DD");
-    let twoMonthBefore = moment().subtract(2, "months").format("YYYY-MM-DD");
-    let current = moment().format("YYYY-MM-DD");
-    if (dataHistori.length > 0) {
-      const filtered = dataHistori.filter((p) => {
-        let compareDate = moment(p.tgl).format("YYYY-MM-DD");
-        return moment(compareDate).isBetween(oneMonthBefore, current);
-      });
-
-      const filtered2Months = dataHistori.filter((p) => {
-        let compareDate = moment(p.tgl).format("YYYY-MM-DD");
-        return moment(compareDate).isBetween(twoMonthBefore, oneMonthBefore);
-      });
-
-      let totalBefore = 0;
-      let viewedBefore = 0;
-      let terjualBefore = filtered2Months.length;
-      for (let f in filtered2Months) {
-        totalBefore += filtered[f].penjualan;
-        viewedBefore += filtered[f].jml;
-      }
-
-      let total = 0;
-      let viewed = 0;
-      let terjual = filtered.length;
-      for (let f in filtered) {
-        total += filtered[f].penjualan;
-        viewed += filtered[f].jml;
-      }
-
-      let totalTwoMonths = totalBefore + total;
-      let totalViewedTwoMonths = viewedBefore + viewed;
-      let terjualTwoMonths = terjualBefore + terjual;
-
-      let percentageTotal = ((total - totalBefore) / totalTwoMonths) * 100;
-      let percentageViewed =
-        ((viewed - viewedBefore) / totalViewedTwoMonths) * 100;
-      let percentageTerjual =
-        ((terjual - terjualBefore) / terjualTwoMonths) * 100;
-
-      this.setState({
-        dataChart: filtered,
-        selectedData: {
-          total: total,
-          viewed: viewed,
-          terjual: terjual,
-          percentageTotal: percentageTotal,
-          percentageViewed: percentageViewed,
-          percentageTerjual: percentageTerjual,
-        },
-      });
+    let current = formatDate(moment(), "YYYY-MM-DD");
+    let oneMonthEarlier = formatDate(getMonthEarlier(current, 1), "YYYY-MM-DD");
+    let filtered = getFilteredDataByMonth(
+      dataHistori,
+      oneMonthEarlier,
+      current
+    );
+    let total = 0;
+    let viewed = 0;
+    let terjual = filtered.length;
+    for (let f in filtered) {
+      total += filtered[f].penjualan;
+      viewed += filtered[f].jml;
     }
+
+    let twoMonthBefore = formatDate(getMonthEarlier(current, 2), "YYYY-MM-DD");
+    let twoMonthData = getFilteredDataByMonth(
+      dataHistori,
+      twoMonthBefore,
+      oneMonthEarlier
+    );
+
+    let totalBefore = 0;
+    let viewedBefore = 0;
+    let terjualBefore = twoMonthData.length;
+    for (let f in twoMonthData) {
+      totalBefore += filtered[f].penjualan;
+      viewedBefore += filtered[f].jml;
+    }
+
+    let percentageTotal = getPercentageData(total, totalBefore);
+    let percentageViewed = getPercentageData(viewed, viewedBefore);
+    let percentageTerjual = getPercentageData(terjual, terjualBefore);
+
+    this.setState({
+      dataChart: filtered,
+      selectedData: {
+        total: total,
+        viewed: viewed,
+        terjual: terjual,
+        percentageTotal: percentageTotal,
+        percentageViewed: percentageViewed,
+        percentageTerjual: percentageTerjual,
+      },
+    });
   }
 
   handleClick = (data) => {

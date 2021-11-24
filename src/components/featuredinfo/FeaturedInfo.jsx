@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./featuredinfo.css";
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material/";
+import { numberWithCommas } from "utils/Utils";
 
 export default class FeaturedInfo extends Component {
   getSignArrow(percentageValue) {
@@ -13,10 +14,6 @@ export default class FeaturedInfo extends Component {
 
   getPlusMinusSign(percentageValue) {
     return percentageValue >= 0 ? "+" : "-";
-  }
-
-  numberWithCommas(num) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   render() {
@@ -51,7 +48,7 @@ export default class FeaturedInfo extends Component {
           <div className="featuredMoneyContainer">
             <span className="featuredMoney">
               {selectedData
-                ? `Rp.${this.numberWithCommas(selectedData.total)}`
+                ? `Rp.${numberWithCommas(selectedData.total)}`
                 : "0"}
             </span>
             <span className="featuredMoneyRate">

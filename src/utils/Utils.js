@@ -13,14 +13,20 @@ export const getMonthEarlier = (date, x) => {
 };
 
 export const getFilteredDataByMonth = (data, startDate, endDate) => {
-  data.filter((f) => {
-    let comparedData = moment(data.tgl);
+  let result = data.filter((f) => {
+    let comparedData = moment(f.tgl);
     return dateIsBetween(comparedData, startDate, endDate);
   });
+  return result;
 };
 
-export const getDataLast30Days = () => {
-    if (data.length > 0) {
-        
-    }
+export const getPercentageData = (xCurrent, xBefore) => {
+  let sumTotal = xCurrent + xBefore;
+  let diffTotal = xCurrent - xBefore
+  return (diffTotal/sumTotal) * 100;
+};
+
+export const numberWithCommas= (num) => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+

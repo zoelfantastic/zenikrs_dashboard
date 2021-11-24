@@ -1,9 +1,9 @@
-import Sidebar from "./components/sidebar/Sidebar";
-import Topbar from "./components/topbar/Topbar";
+import Sidebar from "components/sidebar/Sidebar";
+import Topbar from "components/topbar/Topbar";
 import "./app.css";
-import Home from "./pages/home/Home";
-import Store from "./pages/store/Store";
-import Products from "./pages/products/Products";
+import Home from "pages/home/Home";
+import Store from "pages/store/Store";
+import Products from "pages/products/Products";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {

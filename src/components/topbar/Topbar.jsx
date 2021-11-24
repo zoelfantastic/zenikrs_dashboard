@@ -1,6 +1,6 @@
 import React from "react";
 import "./topbar.css";
-import logo from  "./../../assets/avatar.jpg";
+import logo from  "assets/avatar.jpg";
 import { NotificationsNone, Language, Settings }  from "@mui/icons-material";
 
 export default function Topbar() {

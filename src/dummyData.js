@@ -193,7 +193,7 @@ export const dataHistori = [
     penjualan: 3000000,
   },
   {
-    tgl: "2021-10-05",
+    tgl: "2021-10-31",
     jml: 2,
     terjual: 2,
     penjualan: 1350000,

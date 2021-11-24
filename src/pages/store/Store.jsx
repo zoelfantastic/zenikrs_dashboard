@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React, { Component } from "react";
 import "./store.css";
 import moment from "moment";
-import FeaturedInfo from "../../components/featuredinfo/FeaturedInfo";
+import FeaturedInfo from "components/featuredinfo/FeaturedInfo";
 
 export default class Store extends Component {
   constructor(props) {

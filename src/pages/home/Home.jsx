@@ -40,6 +40,16 @@ export default class Home extends Component {
     this.getdataHistoriSebulan();
   }
 
+  prepareDisplayFeaturedInfo() {
+    //jumlah penjualan
+
+    
+
+    //jumlah dilihat
+
+    //jumlah terjual
+  }
+
   getdataHistoriSebulan() {
     let current = formatDate(moment(), "YYYY-MM-DD");
     let oneMonthEarlier = formatDate(getMonthEarlier(current, 1), "YYYY-MM-DD");
@@ -114,14 +124,14 @@ export default class Home extends Component {
             Update Terakhir : {this.date} {this.month} {this.year}
           </span>
         </div>
-        {selectedData && (
+        {/* {selectedData && (
           <Chart
             data={dataChart}
             title="Statistik Toko"
             grid
             dataKeys={dataKeys}
           />
-        )}
+        )} */}
       </div>
     );
   }

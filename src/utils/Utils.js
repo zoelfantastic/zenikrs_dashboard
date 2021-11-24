@@ -1,5 +1,6 @@
 import moment from "moment";
 
+
 export const formatDate = (date, format) => {
   return moment(date).format(format);
 };
@@ -30,3 +31,7 @@ export const numberWithCommas= (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+
+export const getPlusMinusSign = (percentageValue) => {
+  return percentageValue >= 0 ? "+" : "-";
+}

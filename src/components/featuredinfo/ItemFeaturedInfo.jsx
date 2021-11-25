@@ -13,9 +13,9 @@ const getSignArrow = (percentageValue) => {
 
 export default class ItemFeaturedInfo extends Component {
   render() {
-    const { title, mainData, percentage, subText } = this.props;
+    const { title, mainData, percentage, subText, onHandleClick, selectedWidget } = this.props;
     return (
-      <div className="featuredItem">
+      <div className="featuredItem" onClick={() => onHandleClick(selectedWidget)}>
         <span className="featuredTitle">{title}</span>
         <div className="featuredMoneyContainer">
           <span className="featuredMoney">{mainData}</span>

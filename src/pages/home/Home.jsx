@@ -16,12 +16,12 @@ import {
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.date = new Date().toLocaleString("en-US", { day: "2-digit" });
-    this.month = new Date().toLocaleString("en-US", { month: "long" });
-    this.year = new Date().getFullYear();
-    this.hours = new Date().getHours();
-
     this.state = {
+      selectedWidget: {
+        dataKeyX: "tgl",
+        dataKeyY: "penjualan",
+        dataKeyBar: "penjualan",
+      },
       widgets: [
         {
           id: "pendapatan",
@@ -63,7 +63,6 @@ export default class Home extends Component {
           },
         },
       ],
-      dataChart: dataHistori,
     };
   }
 
@@ -113,6 +112,7 @@ export default class Home extends Component {
             title: "Produk terlihat",
             mainData: viewed,
             percentage: percentageViewed,
+            subText: "dari 30 hari yang lalu",
           };
           copyWidgetData[index].data = dataDilihat;
           break;
@@ -121,6 +121,7 @@ export default class Home extends Component {
             title: "Produk terjual",
             mainData: terjual,
             percentage: percentageTerjual,
+            subText: "dari 30 hari yang lalu",
           };
           copyWidgetData[index].data = dataTerjual;
           break;
@@ -129,46 +130,45 @@ export default class Home extends Component {
             title: "Pendapatan bersih baru",
             mainData: numberWithCommas(total),
             percentage: percentageTotal,
+            subText: "dari 30 hari yang lalu",
           };
           copyWidgetData[index].data = dataPendapatan;
       }
     });
-    
+
     this.setState({
       widgets: copyWidgetData,
     });
   }
 
   handleClick = (data) => {
-    this.setState({
-      dataKeys: {
-        dataKeyX: data.dataKeyX,
-        dataKeyY: data.dataKeyY,
-        dataKeyBar: data.dataKeyBar,
-      },
-    });
+    const { widgets } = this.state;
+    let selected = widgets.find((f) => f.id === data).dataKeys;
+    this.setState((prevState) => ({
+      selectedWidget: { ...prevState.selectedWidget, ...selected },
+    }));
   };
 
   render() {
-    const { widgets } = this.state;
+    const { widgets, selectedWidget } = this.state;
 
     return (
       <div className="home">
-        <FeaturedInfo widgets={widgets} />
-        {/* <div className="titleAnalis">
+        <FeaturedInfo widgets={widgets} onDivClick={this.handleClick} />
+        <div className="titleAnalis">
           <h3>Analis Produk</h3>
-          <span>
-            Update Terakhir : {this.date} {this.month} {this.year}
+          <span className="subtitleAnalis">
+            Update Terakhir : {formatDate(moment(), "DD MMMM YYYY HH:mm")}
           </span>
-        </div> */}
-        {/* {selectedData && (
+        </div>
+        {selectedWidget && (
           <Chart
-            data={dataChart}
+            data={dataHistori}
             title="Statistik Toko"
             grid
-            dataKeys={dataKeys}
+            dataKeys={selectedWidget}
           />
-        )} */}
+        )}
       </div>
     );
   }

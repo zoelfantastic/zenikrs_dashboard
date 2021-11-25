@@ -24,7 +24,7 @@ export const getFilteredDataByMonth = (data, startDate, endDate) => {
 export const getPercentageData = (xCurrent, xBefore) => {
   let sumTotal = xCurrent + xBefore;
   let diffTotal = xCurrent - xBefore
-  return (diffTotal/sumTotal) * 100;
+  return ((diffTotal/sumTotal) * 100).toFixed(2);
 };
 
 export const numberWithCommas= (num) => {

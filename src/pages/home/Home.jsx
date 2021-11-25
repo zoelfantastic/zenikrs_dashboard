@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Chart from "components/chart/Chart";
 import FeaturedInfo from "components/featuredinfo/FeaturedInfo";
+
+import { numberWithCommas } from "utils/Utils";
 import "./home.css";
 import { dataHistori } from "src/dummyData";
 import moment from "moment";
@@ -9,7 +11,7 @@ import {
   getFilteredDataByMonth,
   getPercentageData,
   formatDate,
-} from "../../utils/Utils";
+} from "utils/Utils";
 
 export default class Home extends Component {
   constructor(props) {
@@ -19,35 +21,54 @@ export default class Home extends Component {
     this.year = new Date().getFullYear();
     this.hours = new Date().getHours();
 
-    this.titleWidget = {
-      title1: "Pendapatan bersih baru",
-      title2: "Produk dilihat",
-      title3: "Produk terjual",
-    };
-
     this.state = {
-      dataKeys: {
-        dataKeyX: "tgl",
-        dataKeyY: "penjualan",
-        dataKeyBar: "penjualan",
-      },
+      widgets: [
+        {
+          id: "pendapatan",
+          dataKeys: {
+            dataKeyX: "tgl",
+            dataKeyY: "penjualan",
+            dataKeyBar: "penjualan",
+          },
+          data: {
+            title: "Pendapatan bersih baru",
+            mainData: 0,
+            percentage: 0,
+          },
+        },
+        {
+          id: "dilihat",
+          dataKeys: {
+            dataKeyX: "tgl",
+            dataKeyY: "jml",
+            dataKeyBar: "jml",
+          },
+          data: {
+            title: "Produk dilihat",
+            mainData: 0,
+            percentage: 0,
+          },
+        },
+        {
+          id: "terjual",
+          dataKeys: {
+            dataKeyX: "tgl",
+            dataKeyY: "terjual",
+            dataKeyBar: "terjual",
+          },
+          data: {
+            title: "Produk terjual",
+            mainData: 0,
+            percentage: 0,
+          },
+        },
+      ],
       dataChart: dataHistori,
-      selectedData: null,
     };
   }
 
   componentDidMount() {
     this.getdataHistoriSebulan();
-  }
-
-  prepareDisplayFeaturedInfo() {
-    //jumlah penjualan
-
-    
-
-    //jumlah dilihat
-
-    //jumlah terjual
   }
 
   getdataHistoriSebulan() {
@@ -65,7 +86,6 @@ export default class Home extends Component {
       total += filtered[f].penjualan;
       viewed += filtered[f].jml;
     }
-
     let twoMonthBefore = formatDate(getMonthEarlier(current, 2), "YYYY-MM-DD");
     let twoMonthData = getFilteredDataByMonth(
       dataHistori,
@@ -84,17 +104,38 @@ export default class Home extends Component {
     let percentageTotal = getPercentageData(total, totalBefore);
     let percentageViewed = getPercentageData(viewed, viewedBefore);
     let percentageTerjual = getPercentageData(terjual, terjualBefore);
-
+    const { widgets } = this.state;
+    let copyWidgetData = [...widgets];
+    copyWidgetData.forEach((f, index) => {
+      switch (copyWidgetData[index].id) {
+        case "dilihat":
+          let dataDilihat = {
+            title: "Produk terlihat",
+            mainData: viewed,
+            percentage: percentageViewed,
+          };
+          copyWidgetData[index].data = dataDilihat;
+          break;
+        case "terjual":
+          let dataTerjual = {
+            title: "Produk terjual",
+            mainData: terjual,
+            percentage: percentageTerjual,
+          };
+          copyWidgetData[index].data = dataTerjual;
+          break;
+        default:
+          let dataPendapatan = {
+            title: "Pendapatan bersih baru",
+            mainData: numberWithCommas(total),
+            percentage: percentageTotal,
+          };
+          copyWidgetData[index].data = dataPendapatan;
+      }
+    });
+    
     this.setState({
-      dataChart: filtered,
-      selectedData: {
-        total: total,
-        viewed: viewed,
-        terjual: terjual,
-        percentageTotal: percentageTotal,
-        percentageViewed: percentageViewed,
-        percentageTerjual: percentageTerjual,
-      },
+      widgets: copyWidgetData,
     });
   }
 
@@ -109,21 +150,17 @@ export default class Home extends Component {
   };
 
   render() {
-    const { dataKeys, selectedData, dataChart } = this.state;
+    const { widgets } = this.state;
+
     return (
       <div className="home">
-        <FeaturedInfo
-          dataKeys={dataKeys}
-          selectedData={selectedData}
-          onDivClick={this.handleClick}
-          titleWidget={this.titleWidget}
-        />
-        <div className="titleAnalis">
+        <FeaturedInfo widgets={widgets} />
+        {/* <div className="titleAnalis">
           <h3>Analis Produk</h3>
           <span>
             Update Terakhir : {this.date} {this.month} {this.year}
           </span>
-        </div>
+        </div> */}
         {/* {selectedData && (
           <Chart
             data={dataChart}

@@ -3,7 +3,7 @@ import "./itemfeaturedinfo.css";
 import { getPlusMinusSign } from "utils/Utils";
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material/";
 
-getSignArrow = (percentageValue) => {
+const getSignArrow = (percentageValue) => {
   return percentageValue >= 0 ? (
     <ArrowUpward className="featuredIcon" />
   ) : (

@@ -9,11 +9,15 @@ export const dateIsBetween = (dateX, startDate, endDate) => {
   return moment(dateX).isBetween(startDate, endDate);
 };
 
+export const getDaysEarlier = (date, x) => {
+  return moment(date).subtract(x, "days");
+};
+
 export const getMonthEarlier = (date, x) => {
   return moment(date).subtract(x, "months");
 };
 
-export const getFilteredDataByMonth = (data, startDate, endDate) => {
+export const getFilteredDataByDate = (data, startDate, endDate) => {
   let result = data.filter((f) => {
     let comparedData = moment(f.tgl);
     return dateIsBetween(comparedData, startDate, endDate);

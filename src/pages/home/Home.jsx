@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import Chart from "components/chart/Chart";
 import FeaturedInfo from "components/featuredinfo/FeaturedInfo";
-
 import { numberWithCommas } from "utils/Utils";
 import "./home.css";
 import { dataHistori } from "src/dummyData";
 import moment from "moment";
 import {
   getMonthEarlier,
-  getFilteredDataByMonth,
+  getFilteredDataByDate,
   getPercentageData,
   formatDate,
 } from "utils/Utils";
@@ -73,7 +72,7 @@ export default class Home extends Component {
   getdataHistoriSebulan() {
     let current = formatDate(moment(), "YYYY-MM-DD");
     let oneMonthEarlier = formatDate(getMonthEarlier(current, 1), "YYYY-MM-DD");
-    let filtered = getFilteredDataByMonth(
+    let filtered = getFilteredDataByDate(
       dataHistori,
       oneMonthEarlier,
       current
@@ -86,7 +85,7 @@ export default class Home extends Component {
       viewed += filtered[f].jml;
     }
     let twoMonthBefore = formatDate(getMonthEarlier(current, 2), "YYYY-MM-DD");
-    let twoMonthData = getFilteredDataByMonth(
+    let twoMonthData = getFilteredDataByDate(
       dataHistori,
       twoMonthBefore,
       oneMonthEarlier
